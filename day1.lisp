@@ -12,7 +12,7 @@
   (loop
     for line = (read-line in nil) while line do
         (push (get-row-num line) res))
-  (format t "~a~%" (reduce '+ res))
+  (format t "~a~%" (reduce #'+ res))
   (close in))
 
 (defparameter *numbers* (list "one" "two" "three" "four" "five" "six" "seven" "eight" "nine"))
@@ -24,7 +24,5 @@
                         (loop for i in *numbers*
                               for j in *integers*
                               collect (setf l (cl-ppcre:regex-replace-all i l (concatenate 'string i j i))))
-                        (format t "~a~%~a~%~a~%" line l (get-row-num l))
                         (push (get-row-num l) res)))
-  (format t "~a~%" (reduce #'+ res))
-  (format t "~a~%" (length res)))
+  (format t "~a~%" (reduce #'+ res)))
