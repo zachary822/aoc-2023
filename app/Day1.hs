@@ -18,15 +18,15 @@ names =
   , ("nine", '9')
   ]
 
-getFirstLast :: String -> Integer
+getFirstLast :: String -> String
 getFirstLast [] = error "bad input"
-getFirstLast [a] = read [a, a]
-getFirstLast xs = read [head xs, last xs]
+getFirstLast [a] = [a, a]
+getFirstLast xs = [head xs, last xs]
 
 lookupPrefix :: String -> Maybe Char
 lookupPrefix w = if null matches then Nothing else Just ((snd . head) matches)
  where
-  matches = filter (\(n, _) -> n `isPrefixOf` w) names
+  matches = filter ((`isPrefixOf` w) . fst) names
 
 replaceWord :: String -> [Maybe Char]
 replaceWord [] = []
@@ -39,9 +39,9 @@ main = do
   xs <- lines <$> readFile "day1.txt"
 
   print "part 1"
-  print $ sum . map (getFirstLast . filter isDigit) $ xs
+  print $ sum . map (read . getFirstLast . filter isDigit) $ xs
 
   print "part 2"
-  print $ sum . map (getFirstLast . catMaybes . replaceWord) $ xs
+  print $ sum . map (read . getFirstLast . catMaybes . replaceWord) $ xs
 
   print "done!"
