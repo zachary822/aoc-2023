@@ -24,9 +24,7 @@ getFirstLast [a] = [a, a]
 getFirstLast xs = [head xs, last xs]
 
 lookupPrefix :: String -> Maybe Char
-lookupPrefix w = if null matches then Nothing else Just ((snd . head) matches)
- where
-  matches = filter ((`isPrefixOf` w) . fst) names
+lookupPrefix w = snd <$> find ((`isPrefixOf` w) . fst) names
 
 replaceWord :: String -> [Maybe Char]
 replaceWord [] = []
@@ -39,9 +37,9 @@ main = do
   xs <- lines <$> readFile "day1.txt"
 
   print "part 1"
-  print $ sum . map (read . getFirstLast . filter isDigit) $ xs
+  print (sum . map (read . getFirstLast . filter isDigit) $ xs :: Integer)
 
   print "part 2"
-  print $ sum . map (read . getFirstLast . catMaybes . replaceWord) $ xs
+  print (sum . map (read . getFirstLast . catMaybes . replaceWord) $ xs :: Integer)
 
   print "done!"
